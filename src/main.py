@@ -1,12 +1,31 @@
 
 print("Importing required libraries...")
 import time
-import numpy as np
+
 import cv2
+import RPi.GPIO as GPIO
+import numpy as np
 from picamera import PiCamera
+
 import face_recognition
 from videostream import VideoStream
 print("Libraries imported!")
+
+###################################################
+# motor stuff
+servoPIN = 17
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(servoPIN, GPIO.OUT)
+
+pwm = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
+
+# start running PWN on pin and sets it to 0
+pwm.start(0)
+angle = 120
+duty = angle / 27 +2.5
+###################################################
+
+
 
 # Load a sample picture and learn how to recognize it.
 print("Loading known face image(s)")
@@ -23,6 +42,8 @@ face_encodings = []
 print("[INFO] starting video stream...")
 vs = VideoStream(src=0, usePiCamera=True).start()
 time.sleep(2.0)
+
+open_box = False
 
 while True:
     print("Capturing image.")
@@ -43,9 +64,11 @@ while True:
         # See if the face is a match for the known face(s)
         match = face_recognition.compare_faces([subject_face_encoding], face_encoding)
         name = "<Unknown Person>"
-
+        
+        print(match)
         if match[0]:
             name = "Lee Ping"
+            open_box = True
 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
@@ -55,10 +78,22 @@ while True:
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (0, 255, 0), 1)
 
         print("I see someone named {}!".format(name))
+    
 
     # display the image to our screen
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
+
+    if open_box:
+        # move motor and end program
+        print("Opening box!")
+        pwm.ChangeDutyCycle(duty)
+        time.sleep(1)
+        pwm.stop()
+        GPIO.cleanup()
+        break
+
+    
 
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
@@ -68,4 +103,5 @@ while True:
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+
 
