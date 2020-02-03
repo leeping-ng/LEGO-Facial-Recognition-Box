@@ -40,7 +40,7 @@ face_encodings = []
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream(src=0, usePiCamera=True).start()
+vs = VideoStream(resolution=(320, 240), framerate=32).start()
 time.sleep(2.0)
 
 open_box = False
