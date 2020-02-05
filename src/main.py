@@ -3,12 +3,13 @@ print("Importing required libraries...")
 import time
 
 import cv2
-import RPi.GPIO as GPIO
 import numpy as np
+import RPi.GPIO as GPIO
 from picamera import PiCamera
 
 import face_recognition
 from videostream import VideoStream
+from fps import FPS
 print("Libraries imported!")
 
 ###################################################
@@ -42,6 +43,8 @@ face_encodings = []
 print("[INFO] starting video stream...")
 vs = VideoStream(resolution=(320, 240), framerate=32).start()
 time.sleep(2.0)
+
+fps = FPS().start()
 
 open_box = False
 
@@ -97,8 +100,13 @@ while True:
 
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
-            break
+        break
 
+    fps.update()
+
+fps.stop()
+print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()
