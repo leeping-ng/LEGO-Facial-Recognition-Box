@@ -26,7 +26,36 @@ angle = 120
 duty = angle / 27 +2.5
 ###################################################
 
+def resize(image, width=None, height=None, inter=cv2.INTER_AREA):
+    # initialize the dimensions of the image to be resized and
+    # grab the image size
+    dim = None
+    (h, w) = image.shape[:2]
 
+    # if both the width and height are None, then return the
+    # original image
+    if width is None and height is None:
+        return image
+
+    # check to see if the width is None
+    if width is None:
+        # calculate the ratio of the height and construct the
+        # dimensions
+        r = height / float(h)
+        dim = (int(w * r), height)
+
+    # otherwise, the height is None
+    else:
+        # calculate the ratio of the width and construct the
+        # dimensions
+        r = width / float(w)
+        dim = (width, int(h * r))
+
+    # resize the image
+    resized = cv2.resize(image, dim, interpolation=inter)
+
+    # return the resized image
+    return resized
 
 # Load a sample picture and learn how to recognize it.
 print("Loading known face image(s)")
@@ -52,6 +81,9 @@ while True:
     print("Capturing image.")
 
     frame = vs.read()
+    frame = cv2.flip(frame, 0)
+    #frame = resize(frame, width=100)
+    
     # SHOULD RESIZE TO SPEED UP, IT'S IN imutils.resize
     
     # Find all the faces and face encodings in the current frame of video
