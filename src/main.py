@@ -59,7 +59,7 @@ def resize(image, width=None, height=None, inter=cv2.INTER_AREA):
 
 # Load a sample picture and learn how to recognize it.
 print("Loading known face image(s)")
-subject_image = face_recognition.load_image_file("leeping.jpg")
+subject_image = face_recognition.load_image_file("src/leeping.jpg")
 subject_face_encoding = face_recognition.face_encodings(subject_image)[0]
 print("Face embedding created!")
 
