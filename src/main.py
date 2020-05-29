@@ -81,7 +81,7 @@ while True:
     print("Capturing image.")
 
     frame = vs.read()
-    frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 180)
     #frame = resize(frame, width=100)
     
     # SHOULD RESIZE TO SPEED UP, IT'S IN imutils.resize
