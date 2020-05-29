@@ -1,15 +1,14 @@
-
 print("Importing required libraries...")
 import time
-
-import cv2
 import numpy as np
+import cv2
+
 import RPi.GPIO as GPIO
 from picamera import PiCamera
 
 import face_recognition
-from videostream import VideoStream
-from fps import FPS
+from utils.videostream import VideoStream
+from utils.fps import FPS
 print("Libraries imported!")
 
 ###################################################

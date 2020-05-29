@@ -1,5 +1,10 @@
-# from https://github.com/jrosebr1/imutils/blob/master/imutils/video/videostream.py
-# import the necessary packages
+"""
+Source code modified from:
+Title: Utility functions to manage video stream from Raspberry Pi camera
+Author: Adrian Rosebrock
+Date: 3 Feb 2020
+Availability: https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+"""
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread

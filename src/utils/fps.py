@@ -1,5 +1,10 @@
-# adapted from https://github.com/jrosebr1/imutils/blob/master/imutils/video/fps.py
-# import the necessary packages
+"""
+Source code taken from:
+Title: Utility functions to display FPS
+Author: Adrian Rosebrock
+Date: 5 Feb 2020
+Availability: https://github.com/jrosebr1/imutils/blob/master/imutils/video/fps.py
+"""
 import datetime
 
 class FPS:
