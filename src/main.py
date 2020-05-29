@@ -3,26 +3,29 @@ import time
 import numpy as np
 import cv2
 
-import RPi.GPIO as GPIO
+
 from picamera import PiCamera
 
 import face_recognition
 from utils.videostream import VideoStream
 from utils.fps import FPS
+from utils.servo_utils import init_servo, rotate_servo
 print("Libraries imported!")
 
 ###################################################
-# motor stuff
-servoPIN = 17
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(servoPIN, GPIO.OUT)
+# # motor stuff
+# servoPIN = 17
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(servoPIN, GPIO.OUT)
 
-pwm = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
+# pwm = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
 
-# start running PWN on pin and sets it to 0
-pwm.start(0)
-angle = 120
-duty = angle / 27 +2.5
+# # start running PWN on pin and sets it to 0
+# pwm.start(0)
+# angle = 120
+# duty = angle / 27 +2.5
+init_servo()
+open_angle = 135
 ###################################################
 
 def resize(image, width=None, height=None, inter=cv2.INTER_AREA):
@@ -121,10 +124,7 @@ while True:
     if open_box:
         # move motor and end program
         print("Opening box!")
-        pwm.ChangeDutyCycle(duty)
-        time.sleep(1)
-        pwm.stop()
-        GPIO.cleanup()
+        rotate_servo(open_angle)
         break
 
     
