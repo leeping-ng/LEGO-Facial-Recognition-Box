@@ -9,55 +9,13 @@ from picamera import PiCamera
 import face_recognition
 from utils.videostream import VideoStream
 from utils.fps import FPS
-from utils.servo_utils import init_servo, rotate_servo
+from utils.servomotor import init_servo, rotate_servo
+from utils.preprocessing import resize
 print("Libraries imported!")
 
-###################################################
-# # motor stuff
-# servoPIN = 17
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setup(servoPIN, GPIO.OUT)
 
-# pwm = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
-
-# # start running PWN on pin and sets it to 0
-# pwm.start(0)
-# angle = 120
-# duty = angle / 27 +2.5
 init_servo()
 open_angle = 135
-###################################################
-
-def resize(image, width=None, height=None, inter=cv2.INTER_AREA):
-    # initialize the dimensions of the image to be resized and
-    # grab the image size
-    dim = None
-    (h, w) = image.shape[:2]
-
-    # if both the width and height are None, then return the
-    # original image
-    if width is None and height is None:
-        return image
-
-    # check to see if the width is None
-    if width is None:
-        # calculate the ratio of the height and construct the
-        # dimensions
-        r = height / float(h)
-        dim = (int(w * r), height)
-
-    # otherwise, the height is None
-    else:
-        # calculate the ratio of the width and construct the
-        # dimensions
-        r = width / float(w)
-        dim = (width, int(h * r))
-
-    # resize the image
-    resized = cv2.resize(image, dim, interpolation=inter)
-
-    # return the resized image
-    return resized
 
 # Load a sample picture and learn how to recognize it.
 print("Loading known face image(s)")
