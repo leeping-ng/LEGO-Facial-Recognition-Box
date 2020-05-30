@@ -1,31 +1,44 @@
-print("Importing required libraries...")
+"""
+Source code adapted from:
+Title: Examples using face_recognition library
+Author: Adam Geitgey
+Date: 19 Jan 2020
+Availability: https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_from_webcam.py
+"""
+
+print("[INFO] Importing required libraries...")
 import time
 import numpy as np
 import cv2
 
-
+import face_recognition
 from picamera import PiCamera
 
-import face_recognition
 from utils.videostream import VideoStream
 from utils.fps import FPS
 from utils.servomotor import init_servo, rotate_servo
 from utils.preprocessing import resize
-print("Libraries imported!")
+from utils.read_config import extract_config
+print("[INFO] Libraries imported!")
 
 
-init_servo()
-open_angle = 135
+CONFIG_PATH = '../../config.yml'
+
+settings = extract_config(CONFIG_PATH)
+
 
 # Load a sample picture and learn how to recognize it.
-print("Loading known face image(s)")
+print("[INFO] Loading known face image(s)")
 subject_image = face_recognition.load_image_file("src/leeping.jpg")
 subject_face_encoding = face_recognition.face_encodings(subject_image)[0]
-print("Face embedding created!")
+print('subject_face_encoding: {}'.format(subject_face_encoding))
+print("[INFO] Face embedding created!")
 
 # Initialize some variables
 face_locations = []
 face_encodings = []
+init_servo()
+
 
 
 # initialize the video stream and allow the camera sensor to warm up
@@ -38,7 +51,7 @@ fps = FPS().start()
 open_box = False
 
 while True:
-    print("Capturing image.")
+    print("[INFO] Capturing image.")
 
     frame = vs.read()
     frame = cv2.flip(frame, 180)
@@ -49,9 +62,11 @@ while True:
     # Find all the faces and face encodings in the current frame of video
     # WIP: It may be faster to use haar cascades instead of this to detect faces
     face_locations = face_recognition.face_locations(frame)
+    print('face_locations: {}'.format(face_locations))
     
-    print("Found {} faces in image.".format(len(face_locations)))
+    print("[INFO] Found {} faces in image.".format(len(face_locations)))
     face_encodings = face_recognition.face_encodings(frame, face_locations)
+    print('face_encodings: {}'.format(face_encodings))
 
     # Loop over each face found in the frame to see if it's someone we know.
     #for face_encoding in face_encodings:
@@ -82,7 +97,7 @@ while True:
     if open_box:
         # move motor and end program
         print("Opening box!")
-        rotate_servo(open_angle)
+        rotate_servo(settings['open_angle'])
         break
 
     
@@ -94,7 +109,7 @@ while True:
     fps.update()
 
 fps.stop()
-print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
