@@ -7,6 +7,7 @@ Availability: https://github.com/ageitgey/face_recognition/blob/master/examples/
 """
 
 print("[INFO] Importing required libraries...")
+import sys
 import time
 import numpy as np
 import cv2
@@ -19,35 +20,26 @@ from utils.fps import FPS
 from utils.servomotor import init_servo, rotate_servo
 from utils.preprocessing import resize
 from utils.read_config import extract_config
+from utils.face_embeddings import create_embeddings
 print("[INFO] Libraries imported!")
 
-
-CONFIG_PATH = '../../settings.yml'
-
+sys.path.insert(0, '..')
+CONFIG_PATH = 'settings.yml'
 settings = extract_config(CONFIG_PATH)
 
-
-# Load a sample picture and learn how to recognize it.
-print("[INFO] Loading known face image(s)")
-subject_image = face_recognition.load_image_file("src/leeping.jpg")
-subject_face_encoding = face_recognition.face_encodings(subject_image)[0]
-print('subject_face_encoding: {}'.format(subject_face_encoding))
-print("[INFO] Face embedding created!")
-
-# Initialize some variables
-face_locations = []
-face_encodings = []
-init_servo()
-
-
+# create face embeddings from face images in folder
+whitelisted_face_names, whitelisted_face_encodings = create_embeddings(settings)
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
 vs = VideoStream(resolution=(320, 240), framerate=32).start()
 time.sleep(2.0)
-
 fps = FPS().start()
 
+# Initialize some variables
+face_locations = []
+face_encodings = []
+init_servo()
 open_box = False
 
 while True:
@@ -62,23 +54,24 @@ while True:
     # Find all the faces and face encodings in the current frame of video
     # WIP: It may be faster to use haar cascades instead of this to detect faces
     face_locations = face_recognition.face_locations(frame)
-    print('face_locations: {}'.format(face_locations))
     
     print("[INFO] Found {} faces in image.".format(len(face_locations)))
     face_encodings = face_recognition.face_encodings(frame, face_locations)
-    print('face_encodings: {}'.format(face_encodings))
 
     # Loop over each face found in the frame to see if it's someone we know.
     #for face_encoding in face_encodings:
     for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
         # See if the face is a match for the known face(s)
-        match = face_recognition.compare_faces([subject_face_encoding], face_encoding)
-        name = "<Unknown Person>"
+        matches = face_recognition.compare_faces(whitelisted_face_encodings, face_encoding)
+        name = "Unknown"
         
-        print(match)
-        if match[0]:
-            name = "Lee Ping"
+        # Or instead, use the known face with the smallest distance to the new face
+        face_distances = face_recognition.face_distance(whitelisted_face_encodings, face_encoding)
+        best_match_index = np.argmin(face_distances)
+        if matches[best_match_index]:
+            name = whitelisted_face_names[best_match_index]
             open_box = True
+            
 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
@@ -115,5 +108,3 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
-
-

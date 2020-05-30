@@ -27,10 +27,12 @@ This section explains how to install the required libraries on the Raspberry Pi.
     workon <virtual env name>
     pip install dlib
     pip install face_recognition
+    pip install PyYAML
     pip install "camerapi[array]"
     pip install RPi.GPIO
     ```
     - *dlib* contains the core facial recognition functionalities
     - *face_recognition* is built on top of *dlib*, and makes it simpler to use
+    - *PyYAML* allows the reading of the *settings.yml* file
     - *"camerapi[array]"* allows the Raspberry Pi camera to be used 
     - *RPi.GPIO* allows the Raspberry Pi to control the servomotor using GPIO pins
