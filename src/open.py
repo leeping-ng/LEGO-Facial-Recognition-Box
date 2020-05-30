@@ -22,7 +22,7 @@ from utils.read_config import extract_config
 print("[INFO] Libraries imported!")
 
 
-CONFIG_PATH = '../../config.yml'
+CONFIG_PATH = '../../settings.yml'
 
 settings = extract_config(CONFIG_PATH)
 
