@@ -2,9 +2,9 @@
 
 ### Testing GitHub Pages
 
-<img src='electronics.jpg'>
+<img src='../images/electronics.jpg'>
 
-<img src='bevel_gear.gif'>
+<img src='../images/bevel_gear.gif'>
 
 ### 1. Overview
 
