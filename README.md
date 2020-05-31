@@ -60,10 +60,9 @@ To avoid having to dismantle the box in order to charge the battery, or to do tr
 
 | | |
 | -| -|
-| On/off switch on the battery HAT. |<img src='images/on_off.jpg' width=300>|
-| USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg' width=300>|
-| USB-A port.  |<img src='images/usb.jpg' width=300>|
-| | |
+| On/off switch on the battery HAT. |<img src='images/on_off.jpg'>|
+| USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg'>|
+| USB-A port.  |<img src='images/usb.jpg'>|
 
 ## 3. Electronics
 
@@ -86,7 +85,6 @@ The design choices for these components are summarised in the table below:
 | Camera | Raspberry Pi Camera Module v2 | A straightforward choice, with the added bonus that it connects to the Pi via a compact ribbon cable. |
 | Battery | [WaveShare HAT-LI-01](https://sg.cytron.io/waveshare/p-li-ion-battery-hat-for-raspberry-pi-5v-output-quick-charge?src=brand) (Li-Ion Battery HAT) + Generic 14500 Li-Ion rechargeable battery | This was tricky - I really wanted the box to be portable and thus it had to have its own power source. However, most powerbanks were too bulky to fit in the box. This component fit the bill nicely, with the only downside being having to recharge it every half an hour. |
 | USB Micro-B to Mini-B adapter | Generic | Connects to the battery HAT, and juts out to the edge of the box. This allows the battery to be recharged by connecting a USB Mini-B cable, without having to dismantle the box to reach the HAT. |
-| | | |
 
 ### 3.2 Wiring
 
