@@ -4,7 +4,7 @@
 
 I built a LEGO box around a Raspberry Pi 3A+, it's power source, a Pi camera and a servomotor. The box can be used to keep small valuable items (e.g. wedding ring), and will only open if it detects and recognizes faces that I've saved to the database.
 
-<img src='images/iso_main.jpg' width=500><br>
+<img src='/images/iso_main.jpg' width=500><br>
 
 `Insert video here`
 
