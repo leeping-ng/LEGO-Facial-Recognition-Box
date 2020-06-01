@@ -14,9 +14,9 @@ Of course, being built out of LEGO, a would-be thief could just dismantle the bo
 This project draws from the disciplines of mechanical, electronic and software engineering. The rest of this post explains how the box works and also some of the design decisions I've made. You may use the table of contents below to skip ahead if you'd like. Enjoy!
 
 **Table of Contents**
-- [Mechanical](#2.-Mechanical)
-    - [Aesthetics](#2.1-Aesthetics)
-    - [Opening Mechanism](#2.2-Opening-Mechanism)
+- [Mechanical](#2.-mechanical)
+    - [Aesthetics](#Aesthetics)
+    - [Opening Mechanism](#opening-mechanism)
     - [Serviceability](#2.3-Serviceability)
 - [Electronics](#3.-Electronics)
     - [Component Selection](#3.1-Component-Selection)
@@ -29,7 +29,7 @@ This project draws from the disciplines of mechanical, electronic and software e
 
 ## 2. Mechanical
 
-### 2.1 Aesthetics
+### Aesthetics
 
 My goal was to design the box to be compact enough to fit in the palm of my hand, which was a challenge because of all the electronics required. The only external electronic component is the camera, which I mounted on one side of the box, and hid under the golden circular bricks. Sometimes, I'm reminded of Iron Man's chestplate when I see this...
 
@@ -43,7 +43,7 @@ I wanted to build something Oriental-looking this time, and decided to go with r
 
 `Insert ring image here`
 
-### 2.2 Opening Mechanism
+### Opening Mechanism
 
 The main mechanical feature of this project is the opening and closing of the box. The objective was for a single servomotor to open and close both covers simultaneously. I tried different gear layouts and [four-bar linkages](https://hackaday.com/2017/03/29/marvelous-mechanisms-the-ubiquitous-four-bar-linkage/), and decided to go with the bevel gear mechanism shown in the animation below. Here, I've uncoupled the bevel gear from the servo, and manually rotated the shaft to illustrate how it works.
 
