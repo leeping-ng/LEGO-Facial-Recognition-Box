@@ -4,7 +4,7 @@
 
 I built a LEGO box around a Raspberry Pi 3A+, it's power source, a Pi camera and a servomotor. The box can be used to keep small valuable items (e.g. wedding ring), and will only open if it detects and recognizes faces that I've saved to the database.
 
-<img src='images/iso_main.jpg'><br>
+<img src='images/iso_main.jpg' width='500'><br>
 *Presenting... the finished product.*
 
 `Insert video here`
@@ -33,7 +33,7 @@ This project draws from the disciplines of mechanical, electronic and software e
 
 My goal was to design the box to be compact enough to fit in the palm of my hand, which was a challenge because of all the electronics required. The only external electronic component is the camera, which I mounted on one side of the box, and hid under the golden circular bricks. Sometimes, I'm reminded of Iron Man's chestplate when I see this...
 
-<img src='images/iso_palm.jpg' width=500><br>
+<img src='images/iso_palm.jpg' width='500'><br>
 *The box encapsulates all the electronics, yet manages to be small enough to fit in the palm of my hand.*
 
 I wanted to build something Oriental-looking this time, and decided to go with red as the main colour, with a dash of gold and brown.  I added gold [Asian window screens](https://www.bricklink.com/v2/catalog/catalogitem.page?P=32932&idColor=115#T=C&C=115) on the other three sides of the box to accentuate the Oriental look. 
@@ -59,7 +59,7 @@ The advantages of this solution are:
 To avoid having to dismantle the box in order to charge the battery, or to do troubleshooting, I added removable panels on 4 sides of the box. The panels serve mainly aesthetic purposes, and once removed, the ports of the Raspberry Pi and HAT are exposed as shown below:
 
 | | |
-| -| -|
+| ---| ---|
 | On/off switch on the battery HAT. |<img src='images/on_off.jpg'>|
 | USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg'>|
 | USB-A port.  |<img src='images/usb.jpg'>|
@@ -79,7 +79,7 @@ What was the main factor in selecting electronic components? SPACE!!! I wanted e
 The design choices for these components are summarised in the table below:
 
 | Component | Manufacturer/Model | Rationale for Choice|
-|-- |-- |-- |
+|--- |--- |--- |
 | Computer | Raspberry Pi 3 Model A+ | I used a Pi 3 Model B+ initially, but changed to Model A+ because of it's smaller size and square shape. It only has 512MB of RAM compared to 1GB in the B+, but it did not seem to adversely affect performance. |
 | Servomotor | LOBOT LGS-01 Micro Anti-block Servo 270° Rotation | The main requirement was that the servo had to be able to inferface with LEGO bricks. Once I found one that could, I ordered it and designed the rest of the box around it. |
 | Camera | Raspberry Pi Camera Module v2 | A straightforward choice, with the added bonus that it connects to the Pi via a compact ribbon cable. |
