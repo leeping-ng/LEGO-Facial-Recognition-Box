@@ -14,20 +14,20 @@ Of course, being built out of LEGO, a would-be thief could just dismantle the bo
 This project draws from the disciplines of mechanical, electronic and software engineering. The rest of this post explains how the box works and also some of the design decisions I've made. You may use the table of contents below to skip ahead if you'd like. Enjoy!
 
 **Table of Contents**
-- [Mechanical](#2.-mechanical)
-    - [Aesthetics](#Aesthetics)
+- [Mechanical](#2-mechanical)
+    - [Aesthetics](#aesthetics)
     - [Opening Mechanism](#opening-mechanism)
-    - [Serviceability](#2.3-Serviceability)
-- [Electronics](#3.-Electronics)
+    - [Serviceability](#'2.3'-serviceability)
+- [Electronics](#3-Electronics)
     - [Component Selection](#3.1-Component-Selection)
     - [Wiring](#3.2-Wiring)
     - [Servomotor Calibration](#3.3-Servomotor-Calibration)
-- [Software](#4.-Software)
+- [Software](#4-Software)
     - [Installation and Setup](#4.1-Installation-and-Setup)
     - [Running the Program](#4.2-Running-the-Program)
     - [Facial Recognition: Under the Hood](#4.3-Facial-Recognition:-Under-the-Hood)
 
-## 2. Mechanical
+## 2 Mechanical
 
 ### Aesthetics
 
@@ -64,7 +64,7 @@ To avoid having to dismantle the box in order to charge the battery, or to do tr
 | USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg'>|
 | USB-A port.  |<img src='images/usb.jpg'>|
 
-## 3. Electronics
+## 3 Electronics
 
 ### 3.1 Component Selection
 
@@ -95,7 +95,7 @@ The wiring is pretty straightforward. First, attach the battery HAT on the Raspb
 `To be updated`
 
 
-## 4. Software
+## 4 Software
 
 
 ### 4.1 Installation and Setup
