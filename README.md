@@ -7,6 +7,8 @@ I built a LEGO box around a Raspberry Pi 3A+, it's power source, a Pi camera and
 <img src='images/iso_main.jpg' width='500'><br>
 *Presenting... the finished product.*
 
+`Insert ring image here`
+
 `Insert video here`
 
 Of course, being built out of LEGO, a would-be thief could just dismantle the box... hehe! Still, this was a fun project and my first foray into combining LEGO with AI.
@@ -41,7 +43,6 @@ I wanted to build something Oriental-looking this time, and decided to go with r
 <img src='images/iso_open.jpg' width='500'><br>
 *The gold Asian window screens accentuate the Oriental look.*
 
-`Insert ring image here`
 
 ### 2.2 Opening Mechanism
 
@@ -92,7 +93,26 @@ The wiring is pretty straightforward. First, attach the battery HAT on the Raspb
 
 ### 3.3 Servomotor Calibration
 
-`To be updated`
+If you're not familiar with servomotors, here is an excellent [guide](https://medium.com/@rovai/pan-tilt-multi-servo-control-62f723d03f26) on how they work, and how to calibrate them, if required. I found some differences between the LOBOT servo specs and actual performance, and had to calibrate the servo.
+
+I recorded the rotation angles for different duty cycles, and found that it varied linearly between the ranges in the table below.
+
+| | Angle| Duty Cycle |
+| --- | --- | --- |
+| min | 0 deg | 2.5% |
+| max | 300 deg | 12.5% |
+
+Using linear interpolation:
+```
+(duty_cycle - 2.5)/(12.5 - 2.5) = (angle - 0)/(300 - 0)
+```
+
+The  equation above reduces to this, and now we have a direct relationship between the angle ('human language') and the duty cycle ('servo language'). This equation is used in [servomotor.py](src/utils/servomotor.py).
+```
+duty_cycle = angle/30.0 + 2.5
+```
+
+`To add calibration image`
 
 
 ## 4 Software
@@ -124,9 +144,36 @@ This section explains how to install the required libraries on the Raspberry Pi.
     - *"camerapi[array]"* allows the Raspberry Pi camera to be used 
     - *RPi.GPIO* allows the Raspberry Pi to control the servomotor using GPIO pins
 
+3. Clone this repository.
+    ```
+    git clone https://github.com/leeping-ng/LEGO-Facial-Recognition-Box.git
+    ```
+
 ### 4.2 Running the Program
 
-`To be updated`
+If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to disconnect them and remote into the Pi. After all, the box was designed to work as a standalone product (from the physical world point of view).  I'd recommend using [VNC Viewer](https://www.realvnc.com/en/connect/download/viewer/) to remote into the Pi instead of *ssh*. Although VNC will have more latency, it allows the videostream from the camera to be viewed remotely. 
+
+1. In [settings.yml](settings.yml), configure the following settings and place the face images to the designated folder:
+    - *faces_folder*: set the path of the directory where you will store the face images. Note that, for example,  putting an image named 'Harry Potter.jpg' in this folder is only the first step to grant access. 
+    - *grant_access*: set a list of whitelisted names (whitelisted means you grant them access). Continuing on the previous example, the second step is to add 'Harry Potter' to this whitelist. 
+    - *open_angle*: set the angle for the servomotor to rotate to in order to open the box.
+    - *close_angle*: set the angle for the servomotor to rotate to in order to close the box.
+
+2. To start the program:
+    ```
+    cd <directory containing LEGO-Facial-Recognition-Box>
+    bash run.sh
+    ```
+    The program will keep running in a loop. If a whitelisted face is detected, the box opens and the program ends. (Do note the limited (~0.5h) battery life!)
+
+`To add rpi screenshot`
+
+3. To close the box:
+    ```
+    python3 src/close.py
+    ```
+
+You might want to take this a step further, and execute the *run.sh* script [on startup](https://raspberrypi.stackexchange.com/questions/15475/run-bash-script-on-startup). This way, once you switch on the Pi, the program starts running without requiring you to run any commands. However, you would still have to remote into the Pi to close the covers. 
 
 ### 4.3 Facial Recognition: Under the Hood
 

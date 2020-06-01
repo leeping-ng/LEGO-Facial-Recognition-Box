@@ -1,4 +1,5 @@
 faces_folder: 'faces'
-grant_access: ['Lee Ping', 'Khai Ying']
+grant_access: ['Lee Ping', 'Andrew Ng', 'Geoffrey Hinton']
 open_angle: 135
+close_angle: 0
 
