@@ -170,7 +170,7 @@ If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to 
 
 3. To close the box:
     ```
-    python3 src/close.py
+    bash close.sh
     ```
 
 You might want to take this a step further, and execute the *run.sh* script [on startup](https://raspberrypi.stackexchange.com/questions/15475/run-bash-script-on-startup). This way, once you switch on the Pi, the program starts running without requiring you to run any commands. However, you would still have to remote into the Pi to close the covers. 

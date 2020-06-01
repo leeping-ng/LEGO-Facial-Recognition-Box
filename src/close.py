@@ -1,3 +1,5 @@
+import sys
+
 from utils.servomotor import init_servo, rotate_servo
 from utils.read_config import extract_config
 
