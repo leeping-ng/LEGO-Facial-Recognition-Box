@@ -15,9 +15,9 @@ This project draws from the disciplines of mechanical, electronic and software e
 
 **Table of Contents**
 - [Mechanical](#2-mechanical)
-    - [Aesthetics](#aesthetics)
-    - [Opening Mechanism](#opening-mechanism)
-    - [Serviceability](#'2.3'-serviceability)
+    - [Aesthetics](#21-aesthetics)
+    - [Opening Mechanism](#2-2-opening-mechanism)
+    - [Serviceability](#2--3-serviceability)
 - [Electronics](#3-Electronics)
     - [Component Selection](#3.1-Component-Selection)
     - [Wiring](#3.2-Wiring)
@@ -29,7 +29,7 @@ This project draws from the disciplines of mechanical, electronic and software e
 
 ## 2 Mechanical
 
-### Aesthetics
+### 2.1 Aesthetics
 
 My goal was to design the box to be compact enough to fit in the palm of my hand, which was a challenge because of all the electronics required. The only external electronic component is the camera, which I mounted on one side of the box, and hid under the golden circular bricks. Sometimes, I'm reminded of Iron Man's chestplate when I see this...
 
@@ -43,7 +43,7 @@ I wanted to build something Oriental-looking this time, and decided to go with r
 
 `Insert ring image here`
 
-### Opening Mechanism
+### 2.2 Opening Mechanism
 
 The main mechanical feature of this project is the opening and closing of the box. The objective was for a single servomotor to open and close both covers simultaneously. I tried different gear layouts and [four-bar linkages](https://hackaday.com/2017/03/29/marvelous-mechanisms-the-ubiquitous-four-bar-linkage/), and decided to go with the bevel gear mechanism shown in the animation below. Here, I've uncoupled the bevel gear from the servo, and manually rotated the shaft to illustrate how it works.
 
