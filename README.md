@@ -16,16 +16,16 @@ This project draws from the disciplines of mechanical, electronic and software e
 **Table of Contents**
 - [Mechanical](#2-mechanical)
     - [Aesthetics](#21-aesthetics)
-    - [Opening Mechanism](#2-2-opening-mechanism)
-    - [Serviceability](#2--3-serviceability)
-- [Electronics](#3-Electronics)
-    - [Component Selection](#3.1-Component-Selection)
-    - [Wiring](#3.2-Wiring)
-    - [Servomotor Calibration](#3.3-Servomotor-Calibration)
-- [Software](#4-Software)
-    - [Installation and Setup](#4.1-Installation-and-Setup)
-    - [Running the Program](#4.2-Running-the-Program)
-    - [Facial Recognition: Under the Hood](#4.3-Facial-Recognition:-Under-the-Hood)
+    - [Opening Mechanism](#22-opening-mechanism)
+    - [Serviceability](#23-serviceability)
+- [Electronics](#3-electronics)
+    - [Component Selection](#31-component-selection)
+    - [Wiring](#32-wiring)
+    - [Servomotor Calibration](#33-servomotor-calibration)
+- [Software](#4-software)
+    - [Installation and Setup](#41-installation-and-setup)
+    - [Running the Program](#42-running-the-program)
+    - [Facial Recognition: Under the Hood](#43-facial-recognition-under-the-hood)
 
 ## 2 Mechanical
 
