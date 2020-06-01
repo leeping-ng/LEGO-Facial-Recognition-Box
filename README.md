@@ -38,7 +38,7 @@ My goal was to design the box to be compact enough to fit in the palm of my hand
 
 I wanted to build something Oriental-looking this time, and decided to go with red as the main colour, with a dash of gold and brown.  I added gold [Asian window screens](https://www.bricklink.com/v2/catalog/catalogitem.page?P=32932&idColor=115#T=C&C=115) on the other three sides of the box to accentuate the Oriental look. 
 
-![](images/iso_open.jpg)<br>
+<img src='images/iso_open.jpg' width='500'><br>
 *The gold Asian window screens accentuate the Oriental look.*
 
 `Insert ring image here`
@@ -47,7 +47,7 @@ I wanted to build something Oriental-looking this time, and decided to go with r
 
 The main mechanical feature of this project is the opening and closing of the box. The objective was for a single servomotor to open and close both covers simultaneously. I tried different gear layouts and [four-bar linkages](https://hackaday.com/2017/03/29/marvelous-mechanisms-the-ubiquitous-four-bar-linkage/), and decided to go with the bevel gear mechanism shown in the animation below. Here, I've uncoupled the bevel gear from the servo, and manually rotated the shaft to illustrate how it works.
 
-<img src='images/bevel_gear.gif' width=500><br>
+<img src='images/bevel_gear.gif' width='500'><br>
 *Animation of the bevel gear opening mechanism.*
 
 The advantages of this solution are:
@@ -60,9 +60,9 @@ To avoid having to dismantle the box in order to charge the battery, or to do tr
 
 | | |
 | ---| ---|
-| On/off switch on the battery HAT. |<img src='images/on_off.jpg'>|
-| USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg'>|
-| USB-A port.  |<img src='images/usb.jpg'>|
+| On/off switch on the battery HAT. |<img src='images/on_off.jpg' width='300'>|
+| USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg' width='300'>|
+| USB-A port.  |<img src='images/usb.jpg' width='300'>|
 
 ## 3 Electronics
 
@@ -70,10 +70,10 @@ To avoid having to dismantle the box in order to charge the battery, or to do tr
 
 What was the main factor in selecting electronic components? SPACE!!! I wanted everything to be contained within the box, while keeping the overall dimensions of the box as petite as possible. I was also adamant that the cross-section of the box should be a square instead of a rectangle (this would look weird). 
 
-<img src='images/electronics2.jpg' width=500> <br>
+<img src='images/electronics2.jpg' width='500'> <br>
 *The electronics, contained within the LEGO box.*
 
-<img src='images/electronics.jpg' width=500><br>
+<img src='images/electronics.jpg' width='500'><br>
 *The 5 main electronic components.*
 
 The design choices for these components are summarised in the table below:
