@@ -96,7 +96,10 @@ The wiring is pretty straightforward. First, attach the battery HAT on the Raspb
 
 If you're not familiar with servomotors, here is an excellent [guide](https://medium.com/@rovai/pan-tilt-multi-servo-control-62f723d03f26) on how they work, and how to calibrate them, if required. I found some differences between the LOBOT servo specs and actual performance, and had to calibrate the servo.
 
-I recorded the rotation angles for different duty cycles, and found that it varied linearly between the ranges in the table below.
+<img src='images/calibration.jpg' width='400'><br>
+*The servo is hidden below this piece of paper, and rotates the pointer at different duty cycles.*
+
+I recorded the rotation angles for different duty cycles as shown above, and found that it varied linearly between the ranges in the table below.
 
 | | Angle| Duty Cycle |
 | --- | --- | --- |
@@ -112,9 +115,6 @@ The  equation above reduces to this, and now we have a direct relationship betwe
 ```
 duty_cycle = angle/30.0 + 2.5
 ```
-
-`To add calibration image`
-
 
 ## 4 Software
 
@@ -157,6 +157,7 @@ If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to 
 1. In [settings.yml](settings.yml), configure the following settings and place the face images to the designated folder:
     - *faces_folder*: set the path of the directory where you will store the face images. Note that, for example,  putting an image named 'Harry Potter.jpg' in this folder is only the first step to grant access. 
     - *grant_access*: set a list of whitelisted names (whitelisted means you grant them access). Continuing on the previous example, the second step is to add 'Harry Potter' to this whitelist. 
+    - *use_accurate_detector*: set to *True* to use the more accurate but slower HOG detector, or set to *False* to use the faster but less accurate Haar Cascade detector. More on this topic [here](#44-improving-the-frame-rate).
     - *open_angle*: set the angle for the servomotor to rotate to in order to open the box.
     - *close_angle*: set the angle for the servomotor to rotate to in order to close the box.
 
@@ -183,7 +184,7 @@ So, how does facial recognition work? Adam Geitgey, the creator of the [`face_re
 From a high level, the facial recognition used in this repo can be broken down into 3 steps:
 1. Face detection: Detect all the faces in a given image, and return the bounding box coordinates around each face. 
     - Adam's article explains a method called *HOG* or *Histogram of Oriented Gradients*, and this would be the default method if using `face_recognition.face_locations()`. 
-    - However, to improve performance on a resource limited Raspberry Pi, this repo uses a faster but less accurate method called [*Haar Cascades*](http://www.willberger.org/cascade-haar-explained/). 
+    - I've included the option to use a faster but less accurate method called [*Haar Cascades*](http://www.willberger.org/cascade-haar-explained/). 
 2. Encoding faces: For each detected face, convert the area of the face into a 128-dimension representative vector (a.k.a. embedding), using `face_recognition.face_encodings()`.
     - A deep neural network was trained by Davis King, the creator of [*dlib*](http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html), to be very good at creating embeddings from face images. `face_recognition` is built on top of *dlib*'s foundation.
     - The model is a [ResNet](https://arxiv.org/pdf/1512.03385.pdf) network with 29 convolutional layers, trained on a dataset of 3 million face images.    
@@ -196,6 +197,8 @@ Adam's article included the step of *Posing and Projecting Faces* using *face la
 
 I ran a series of experiments to assess the frame rate, averaging the results for about a minute each.
 
+#### 4.4.1 Haar Cascades vs HOG Face Detector
+
 We can draw the following conclusions from the results below:
 - The steps of detecting faces and encoding faces are similarly computationally expensive.
 - We can't do much about the encoding face step, as we're using a pre-trained model, and it happens to be a pretty deep network at 29 convolutional layers.
@@ -207,8 +210,19 @@ We can draw the following conclusions from the results below:
 | Encode face | 520ms | ~0ms |
 | Frame Rate | 0.91 FPS | 1.70 FPS|
 
-`To update Haar Cascades results`
+Swapping out HOG with Haar Cascades, we see from below a three-fold improvement in detection speed! 
 
+| | HOG | Haar Cascades |
+| --- | --- | --- |
+| Face detection time | 570ms | 180ms|
+| Frame Rate (With Face) | 0.91 FPS | 1.34 FPS |
+| Frame Rate (No Face) | 1.70 FPS | 5.40 FPS |
+
+However, this increased speed comes at the expense of accuracy. The Haar Cascades detector doesn't work as accurate as the HOG detector, especially if its [parameters](https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters) aren't tuned right. The choice of detector really depends on your requirements, thus I decided to add an option to choose the detector in [settings.yml](settings.yml).
+
+#### 4.4.2 Image Resolution
+
+`WIP`
 
 ## 5. Thanks
 

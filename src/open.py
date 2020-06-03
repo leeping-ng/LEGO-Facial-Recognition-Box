@@ -47,6 +47,7 @@ open_box = False
 
 # Loop through video frames
 while True:
+    # stop the program if there are no whitelisted faces, as there's no point in running
     if not whitelisted_face_names:
         print("[WARNING] No one has been granted access. Check that:")
         print("[WARNING] 1) Face images have been placed in the designated folder")
@@ -60,18 +61,17 @@ while True:
     # resize to increase frame rate, if needed
     #frame = resize(frame, width=100)   
     
-    # Using Haar Cascades to detect faces may be faster than this
-    #face_locations = face_recognition.face_locations(frame)
-
-    # Step 1: Use Haar Cascades to detect faces
-    tic = time.time()
-    haar_detector = cv2.CascadeClassifier(HAAR_CASCADES_PATH)
-    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # recommended parameters: https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters
-    vertices = haar_detector.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-    face_locations = [(y, x + w, y + h, x) for (x, y, w, h) in vertices]
-    toc = time.time()
-    print("time to detect face: {}".format(toc - tic))
+    # Step 1: Detect the faces in the frame
+    if settings['use_accurate_detector']:
+        # Use HOG (more accurate, but slower)
+        face_locations = face_recognition.face_locations(frame)
+    else:
+        # Use Haar Cascades (faster, but less accurate)
+        haar_detector = cv2.CascadeClassifier(HAAR_CASCADES_PATH)
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # recommended parameters: https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters
+        vertices = haar_detector.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+        face_locations = [(y, x + w, y + h, x) for (x, y, w, h) in vertices]
     print("[INFO] Found {} faces in image.".format(len(face_locations)))
 
     # Step 2: Use pre-trained NN to create 128-dim embeddings from detected faces
