@@ -64,10 +64,14 @@ while True:
     #face_locations = face_recognition.face_locations(frame)
 
     # Step 1: Use Haar Cascades to detect faces
+    tic = time.time()
     haar_detector = cv2.CascadeClassifier(HAAR_CASCADES_PATH)
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    x, y, w, h = haar_detector.detectMultiScale(gray_frame, scale_factor=1.2)
-    face_locations = y, x+w, y+h, x
+    # recommended parameters: https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters
+    vertices = haar_detector.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    face_locations = [(y, x + w, y + h, x) for (x, y, w, h) in vertices]
+    toc = time.time()
+    print("time to detect face: {}".format(toc - tic))
     print("[INFO] Found {} faces in image.".format(len(face_locations)))
 
     # Step 2: Use pre-trained NN to create 128-dim embeddings from detected faces
