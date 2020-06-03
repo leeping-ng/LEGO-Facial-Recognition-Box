@@ -28,6 +28,7 @@ This project draws from the disciplines of mechanical, electronic and software e
     - [Installation and Setup](#41-installation-and-setup)
     - [Running the Program](#42-running-the-program)
     - [Facial Recognition: Under the Hood](#43-facial-recognition-under-the-hood)
+    - [Improving the Frame Rate](#44-improving-the-frame-rate)
 
 ## 2 Mechanical
 
@@ -177,4 +178,40 @@ You might want to take this a step further, and execute the *run.sh* script [on 
 
 ### 4.3 Facial Recognition: Under the Hood
 
-`To be updated`
+So, how does facial recognition work? Adam Geitgey, the creator of the [`face_recognition`](https://github.com/ageitgey/face_recognition) library which we're using, explained it nicely in this [article](https://medium.com/@ageitgey/machine-learning-is-fun-part-4-modern-face-recognition-with-deep-learning-c3cffc121d78).
+
+From a high level, the facial recognition used in this repo can be broken down into 3 steps:
+1. Face detection: Detect all the faces in a given image, and return the bounding box coordinates around each face. 
+    - Adam's article explains a method called *HOG* or *Histogram of Oriented Gradients*, and this would be the default method if using `face_recognition.face_locations()`. 
+    - However, to improve performance on a resource limited Raspberry Pi, this repo uses a faster but less accurate method called [*Haar Cascades*](http://www.willberger.org/cascade-haar-explained/). 
+2. Encoding faces: For each detected face, convert the area of the face into a 128-dimension representative vector (a.k.a. embedding), using `face_recognition.face_encodings()`.
+    - A deep neural network was trained by Davis King, the creator of [*dlib*](http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html), to be very good at creating embeddings from face images. `face_recognition` is built on top of *dlib*'s foundation.
+    - The model is a [ResNet](https://arxiv.org/pdf/1512.03385.pdf) network with 29 convolutional layers, trained on a dataset of 3 million face images.    
+3. Comparing embeddings: Compare the embedding of the detected face with the embeddings of the whitelisted faces in our database, using `face_recognition.compare_faces()`. If there's a match, grant access to the person.
+    - A Support Vector Machine (SVM) classifier is used to compare the 128-dim vectors. This only took milliseconds on my Pi.
+
+Adam's article included the step of *Posing and Projecting Faces* using *face landmark estimation* prior to encoding faces. This would help to deal with faces which are not looking directly at the camera. However, I've excluded this to reduce the computation load on the Pi.  
+
+### 4.4 Improving the Frame Rate
+
+I ran a series of experiments to assess the frame rate, averaging the results for about a minute each.
+
+We can draw the following conclusions from the results below:
+- The steps of detecting faces and encoding faces are similarly computationally expensive.
+- We can't do much about the encoding face step, as we're using a pre-trained model, and it happens to be a pretty deep network at 29 convolutional layers.
+- However, we could try to speed up the face detection step by using Haar Cascades instead of HOG.
+
+| | With Face | No Face|
+| --- | --- | --- |
+| Detect face (HOG) | 570ms | 570ms |
+| Encode face | 520ms | ~0ms |
+| Frame Rate | 0.91 FPS | 1.70 FPS|
+
+`To update Haar Cascades results`
+
+
+## 5. Thanks
+
+Adrian Rosebrock's [tutorial ](https://www.pyimagesearch.com/2018/06/25/raspberry-pi-face-recognition/) on deploying facial recognition software on Raspberry Pi was my starting point for this project. Thanks to Adrian's tutorial, I was able to tackle steps such as building and installing OpenCV from source on an Pi, without much difficulty.
+
+
