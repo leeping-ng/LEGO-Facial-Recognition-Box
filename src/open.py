@@ -81,7 +81,7 @@ while True:
         # Draw a box around the face with associated name
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
         font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (0, 255, 0), 1)
+        cv2.putText(frame, name, (left+6, top-6), font, 0.5, (0, 255, 0), 1)
         print("[INFO] {} detected.".format(name))
 
     cv2.imshow("Frame", frame)
