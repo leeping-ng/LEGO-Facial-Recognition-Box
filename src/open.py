@@ -59,7 +59,7 @@ while True:
     frame = vs.read()
     frame = cv2.flip(frame, 180)
     # resize to increase frame rate, if needed
-    #frame = resize(frame, width=100)   
+    # frame = resize(frame, width=500)   
     
     # Step 1: Detect the faces in the frame
     if settings['use_accurate_detector']:

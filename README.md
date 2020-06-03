@@ -63,7 +63,7 @@ To avoid having to dismantle the box in order to charge the battery, or to do tr
 | | |
 | ---| ---|
 | On/off switch on the battery HAT. |<img src='images/on_off.jpg' width='300'>|
-| USB Mini-B charging port, HDMI port, and camera. |<img src='images/charge_port.jpg' width='300'>|
+| USB Mini-B and Micro-B charging ports, HDMI port, and camera. |<img src='images/charge_port.jpg' width='300'>|
 | USB-A port.  |<img src='images/usb.jpg' width='300'>|
 
 ## 3 Electronics
@@ -164,9 +164,10 @@ If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to 
 2. To start the program:
     ```
     cd <directory containing LEGO-Facial-Recognition-Box>
-    bash run.sh
+    bash scan.sh
     ```
-    The program will keep running in a loop. If a whitelisted face is detected, the box opens and the program ends. (Do note the limited (~0.5h) battery life!)
+    The program will keep running in a loop. If a whitelisted face is detected, the box opens and the program ends. Click on the image window and press 'q' to return to terminal. Do note the limited (~0.5h) battery life!
+
 
 `To add rpi screenshot`
 
@@ -175,27 +176,28 @@ If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to 
     bash close.sh
     ```
 
-You might want to take this a step further, and execute the *run.sh* script [on startup](https://raspberrypi.stackexchange.com/questions/15475/run-bash-script-on-startup). This way, once you switch on the Pi, the program starts running without requiring you to run any commands. However, you would still have to remote into the Pi to close the covers. 
+You might want to take this a step further, and execute the *scan.sh* script [on startup](https://raspberrypi.stackexchange.com/questions/15475/run-bash-script-on-startup). This way, once you switch on the Pi, the program starts running without requiring you to run any commands. However, you would still have to remote into the Pi to close the covers. 
 
 ### 4.3 Facial Recognition: Under the Hood
 
 So, how does facial recognition work? Adam Geitgey, the creator of the [`face_recognition`](https://github.com/ageitgey/face_recognition) library which we're using, explained it nicely in this [article](https://medium.com/@ageitgey/machine-learning-is-fun-part-4-modern-face-recognition-with-deep-learning-c3cffc121d78).
 
-From a high level, the facial recognition used in this repo can be broken down into 3 steps:
+From a high level, the facial recognition used in this repo can be broken down into 4 steps:
 1. Face detection: Detect all the faces in a given image, and return the bounding box coordinates around each face. 
     - Adam's article explains a method called *HOG* or *Histogram of Oriented Gradients*, and this would be the default method if using `face_recognition.face_locations()`. 
-    - I've included the option to use a faster but less accurate method called [*Haar Cascades*](http://www.willberger.org/cascade-haar-explained/). 
-2. Encoding faces: For each detected face, convert the area of the face into a 128-dimension representative vector (a.k.a. embedding), using `face_recognition.face_encodings()`.
+    - I've included the option to use a faster but less accurate method called [*Haar Cascades*](http://www.willberger.org/cascade-haar-explained/).
+2. Correcting facial poses: For faces that are turned slightly away from the camera, use *face landmark estimation* to centre the face as much as possible. This will be automatically done for us when we call `face_recognition.face_encodings()` in the next step. 
+3. Encoding faces: For each detected face, convert the area of the face into a 128-dimension representative vector (a.k.a. embedding), using `face_recognition.face_encodings()`.
     - A deep neural network was trained by Davis King, the creator of [*dlib*](http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html), to be very good at creating embeddings from face images. `face_recognition` is built on top of *dlib*'s foundation.
     - The model is a [ResNet](https://arxiv.org/pdf/1512.03385.pdf) network with 29 convolutional layers, trained on a dataset of 3 million face images.    
-3. Comparing embeddings: Compare the embedding of the detected face with the embeddings of the whitelisted faces in our database, using `face_recognition.compare_faces()`. If there's a match, grant access to the person.
+4. Comparing embeddings: Compare the embedding of the detected face with the embeddings of the whitelisted faces in our database, using `face_recognition.compare_faces()`. If there's a match, grant access to the person.
     - A Support Vector Machine (SVM) classifier is used to compare the 128-dim vectors. This only took milliseconds on my Pi.
 
-Adam's article included the step of *Posing and Projecting Faces* using *face landmark estimation* prior to encoding faces. This would help to deal with faces which are not looking directly at the camera. However, I've excluded this to reduce the computation load on the Pi.  
+Adam's article included the step of *Posing and Projecting Faces* using  prior to encoding faces. This would help to deal with faces which are not looking directly at the camera. However, I've excluded this to reduce the computation load on the Pi.  
 
 ### 4.4 Improving the Frame Rate
 
-I ran a series of experiments to assess the frame rate, averaging the results for about a minute each.
+I ran a series of experiments to assess the frame rate, averaging the results for about a minute each. 'With Face' means that I put my face in front of the camera to allow face detection at all times, while for 'No Face' I just pointed the camera at a wall.
 
 #### 4.4.1 Haar Cascades vs HOG Face Detector
 
@@ -220,12 +222,28 @@ Swapping out HOG with Haar Cascades, we see from below a three-fold improvement 
 
 However, this increased speed comes at the expense of accuracy. The Haar Cascades detector doesn't work as accurate as the HOG detector, especially if its [parameters](https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters) aren't tuned right. The choice of detector really depends on your requirements, thus I decided to add an option to choose the detector in [settings.yml](settings.yml).
 
+`To add gif of videostream`
+
 #### 4.4.2 Image Resolution
 
-`WIP`
+The other, and probably more obvious, method to improve frame rate is to lower the image resolution. Prior to this test, I was using 320x240 as the default resolution for all other tests. The results below (with face, HOG detector) show that: 
+- Lowering the image resolution improved the face detection time, as expected.
+- However, it didn't have noticeable impact on the time to encode faces. This is because the ResNet network that's used to encode faces has a fixed input size of [150x150 pixels](https://github.com/davisking/dlib/blob/master/examples/dnn_face_recognition_ex.cpp). Thus, regardless of the image resolution, all detected faces are resized to 150x150 and passed to the network.
+
+| Resolution (WxH, in pixels)| 100x75 | 320x240 | 500x375 |
+| --- | --- | --- | --- |
+| Detect face (HOG) | 60ms | 570ms | 1,360ms |
+| Encode face | 530ms | 520ms | 530ms |
+| Frame Rate | 1.68 FPS | 0.91 FPS| 0.50 FPS |
+
+Additionally, dropping the resolution down to 100x75 had the following detrimental effects:
+- I had to move my face very close (~20cm) to the camera.
+- Higher prediction errors, as the input image to the face encoding network is of very poor quality.
+
+As a result of these trade-offs, I decided to keep the original 320x240 resolution. 
 
 ## 5. Thanks
 
-Adrian Rosebrock's [tutorial ](https://www.pyimagesearch.com/2018/06/25/raspberry-pi-face-recognition/) on deploying facial recognition software on Raspberry Pi was my starting point for this project. Thanks to Adrian's tutorial, I was able to tackle steps such as building and installing OpenCV from source on an Pi, without much difficulty.
+Adrian Rosebrock's [tutorial ](https://www.pyimagesearch.com/2018/06/25/raspberry-pi-face-recognition/) on deploying facial recognition software on Raspberry Pi was my starting point for this project. Thanks to Adrian's tutorial, I was able to tackle steps such as building and installing OpenCV from source on an Pi, without much difficulty. Also, thanks to Davis King and Adam Geitgey for their respective `dlib` and `face_recognition` libraries!
 
 

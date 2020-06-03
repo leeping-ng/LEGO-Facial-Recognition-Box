@@ -35,7 +35,7 @@ def resize(image, width=None, height=None, inter=cv2.INTER_AREA):
 
     # resize the image
     resized = cv2.resize(image, dim, interpolation=inter)
-    print("[INFO] Image resolution: {}".format(dims))
+    #print("[INFO] Image resolution: {}".format(dim))
 
     # return the resized image
     return resized
