@@ -23,9 +23,11 @@ from utils.read_config import extract_config
 from utils.face_embeddings import create_embeddings
 print("[INFO] Libraries imported!")
 
+CONFIG_PATH = 'settings.yml'
+HAAR_CASCADES_PATH = 'detector_architectures/haarcascade_frontalface_default.xml'
+
 # read in configuration settings
 sys.path.insert(0, '..')
-CONFIG_PATH = 'settings.yml'
 settings = extract_config(CONFIG_PATH)
 
 # create face embeddings from face images in folder
@@ -59,13 +61,21 @@ while True:
     #frame = resize(frame, width=100)   
     
     # Using Haar Cascades to detect faces may be faster than this
-    face_locations = face_recognition.face_locations(frame)
+    #face_locations = face_recognition.face_locations(frame)
+
+    # Step 1: Use Haar Cascades to detect faces
+    haar_detector = cv2.CascadeClassifier(HAAR_CASCADES_PATH)
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    x, y, w, h = haar_detector.detectMultiScale(gray_frame, scale_factor=1.2)
+    face_locations = y, x+w, y+h, x
     print("[INFO] Found {} faces in image.".format(len(face_locations)))
+
+    # Step 2: Use pre-trained NN to create 128-dim embeddings from detected faces
     face_encodings = face_recognition.face_encodings(frame, face_locations)
 
     # Loop over each face found in the frame to see if it's whitelisted
     for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
-        # See if the face is a match for the whitelisted face(s), a list of booleans
+        # Step 3: See if the face is a match for the whitelisted face(s), a list of booleans
         matches = face_recognition.compare_faces(whitelisted_face_encodings, face_encoding)
         name = "Unknown"
         
