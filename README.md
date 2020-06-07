@@ -7,7 +7,8 @@ I built a LEGO box around a Raspberry Pi 3A+, it's power source, a Pi camera and
 <img src='images/iso_main.jpg' width='500'><br>
 *Presenting... the finished product.*
 
-`Insert ring image here`
+<img src='images/iso_ring.jpg' width='500'><br>
+*Small valuables like this ring can be kept in the box.*
 
 `Insert video here`
 
@@ -41,7 +42,7 @@ My goal was to design the box to be compact enough to fit in the palm of my hand
 
 I wanted to build something Oriental-looking this time, and decided to go with red as the main colour, with a dash of gold and brown.  I added gold [Asian window screens](https://www.bricklink.com/v2/catalog/catalogitem.page?P=32932&idColor=115#T=C&C=115) on the other three sides of the box to accentuate the Oriental look. 
 
-<img src='images/iso_open.jpg' width='500'><br>
+<img src='images/iso_oriental.jpg' width='500'><br>
 *The gold Asian window screens accentuate the Oriental look.*
 
 
