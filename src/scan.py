@@ -82,6 +82,7 @@ while True:
         # Step 3: See if the face is a match for the whitelisted face(s), a list of booleans
         matches = face_recognition.compare_faces(whitelisted_face_encodings, face_encoding)
         name = "Unknown"
+        colour = (0, 0, 255)
         
         # Use the whitelisted face with the smallest distance to the new face
         face_distances = face_recognition.face_distance(whitelisted_face_encodings, face_encoding)
@@ -91,11 +92,12 @@ while True:
         if matches[best_match_index]:
             name = whitelisted_face_names[best_match_index]
             open_box = True
+            colour = (0, 255, 0)
           
         # Draw a box around the face with associated name
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+        cv2.rectangle(frame, (left, top), (right, bottom), colour, 2)
         font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left+6, top-6), font, 0.5, (0, 255, 0), 1)
+        cv2.putText(frame, name, (left+6, top-6), font, 0.5, colour, 1)
         print("[INFO] {} detected.".format(name))
 
     cv2.imshow("Frame", frame)
