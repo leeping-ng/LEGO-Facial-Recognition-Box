@@ -195,6 +195,8 @@ From a high level, the facial recognition used in this repo can be broken down i
 4. Comparing embeddings: Compare the embedding of the detected face with the embeddings of the whitelisted faces in our database, using `face_recognition.compare_faces()`. If there's a match, grant access to the person.
     - A Support Vector Machine (SVM) classifier is used to compare the 128-dim vectors. This only took milliseconds on my Pi.
 
+You can check out the full API for `face_recognition` [here](https://face-recognition.readthedocs.io/en/latest/face_recognition.html).
+
 
 ### 4.4 Improving the Frame Rate
 
