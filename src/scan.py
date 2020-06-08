@@ -80,7 +80,7 @@ while True:
     # Loop over each face found in the frame to see if it's whitelisted
     for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
         # Step 3: See if the face is a match for the whitelisted face(s), a list of booleans
-        matches = face_recognition.compare_faces(whitelisted_face_encodings, face_encoding)
+        matches = face_recognition.compare_faces(whitelisted_face_encodings, face_encoding, tolerance=settings['tolerance'])
         name = "Unknown"
         colour = (0, 0, 255)
         

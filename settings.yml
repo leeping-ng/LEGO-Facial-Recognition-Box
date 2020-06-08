@@ -4,4 +4,5 @@ grant_access: ['Lee Ping', 'Andrew Ng', 'Geoffrey Hinton']
 use_accurate_detector: True 
 open_angle: 135
 close_angle: 0
+tolerance: 0.6
 

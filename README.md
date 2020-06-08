@@ -161,6 +161,7 @@ If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to 
     - *use_accurate_detector*: set to *True* to use the more accurate but slower HOG detector, or set to *False* to use the faster but less accurate Haar Cascade detector. More on this topic [here](#44-improving-the-frame-rate).
     - *open_angle*: set the angle for the servomotor to rotate to in order to open the box.
     - *close_angle*: set the angle for the servomotor to rotate to in order to close the box.
+    - *tolerance*: the lower the tolerance, the less strict the neural network when matching faces. 0.6 is the default value for best performance.
 
 2. To start the program:
     ```
