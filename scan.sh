@@ -1,3 +1,4 @@
+#!/bin/bash 
 source ~/.profile
 # change to virtual environment
 workon cv
