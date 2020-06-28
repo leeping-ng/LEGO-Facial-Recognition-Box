@@ -10,7 +10,8 @@ I built a LEGO box around a Raspberry Pi 3A+, it's power source, a Pi camera and
 <img src='images/iso_ring.jpg' width='500'><br>
 *Small valuables like this ring can be kept in the box.*
 
-`Insert video here`
+[![YouTube Video](https://img.youtube.com/vi/y3Ve4oOTlAE/0.jpg)](https://www.youtube.com/watch?v=y3Ve4oOTlAE)<br>
+*YouTube Video*
 
 Of course, being built out of LEGO, a would-be thief could just dismantle the box... hehe! Still, this was a fun project and my first foray into combining LEGO with AI.
 
