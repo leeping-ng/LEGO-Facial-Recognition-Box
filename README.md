@@ -11,7 +11,7 @@ I built a LEGO box around a Raspberry Pi 3A+, it's power source, a Pi camera and
 *Small valuables like this ring can be kept in the box.*
 
 [![YouTube Video](https://img.youtube.com/vi/y3Ve4oOTlAE/0.jpg)](https://www.youtube.com/watch?v=y3Ve4oOTlAE)<br>
-*YouTube Video*
+*Click above or [here](https://www.youtube.com/watch?v=y3Ve4oOTlAE) open the YouTube video*
 
 Of course, being built out of LEGO, a would-be thief could just dismantle the box... hehe! Still, this was a fun project and my first foray into combining LEGO with AI.
 
@@ -171,8 +171,8 @@ If you've been connecting a keyboard, mouse and monitor to the Pi, it's time to 
     ```
     The program will keep running in a loop. If a whitelisted face is detected, the box opens and the program ends. Click on the image window and press 'q' to return to terminal. Do note the limited (~0.5h) battery life!
 
-
-`To add rpi screenshot`
+<img src='images/RPi_stream.gif' width='500'><br>
+*The LEGO box with a stream from the Raspberry Pi.*
 
 3. To close the box:
     ```
@@ -226,7 +226,6 @@ Swapping out HOG with Haar Cascades, we see from below a three-fold improvement 
 
 However, this increased speed comes at the expense of accuracy. The Haar Cascades detector doesn't work as accurate as the HOG detector, especially if its [parameters](https://stackoverflow.com/questions/20801015/recommended-values-for-opencv-detectmultiscale-parameters) aren't tuned right. The choice of detector really depends on your requirements, thus I decided to add an option to choose the detector in [settings.yml](settings.yml).
 
-`To add gif of videostream`
 
 #### 4.4.2 Image Resolution
 
